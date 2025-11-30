@@ -1,0 +1,15 @@
+{
+  "name": "Sai",
+  "wake_time": "07:00",
+  "sleep_time": "23:00",
+  "work_start": "09:00",
+  "work_end": "17:00",
+  "wants_gym": true,
+  "wants_skincare": true,
+  "wants_learning": true,
+  "diet_type": "balanced",
+  "budget_level": "medium",
+  "avoid_ingredients": [
+    "milk"
+  ]
+}
