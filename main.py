@@ -1,59 +1,44 @@
-"""
-main.py
-Entry point for Agent LifeNavigator.
-"""
-
-from __future__ import annotations
-from typing import Any, Dict, List
-
+# main.py
 from agents import OrchestratorAgent
-from memory import PreferenceMemory
+from user_input import load_user_profile, ask_user_interactively
+from personality_engine import personalize_profile
+
+# Toggle: True = use Gemini 2.0 Pro, False = offline rule-based
+USE_LLM = True
 
 
-def build_sample_user_profile() -> Dict[str, Any]:
-    return {
-        "name": "Sai",
-        "wake_time": "07:00",
-        "sleep_time": "23:00",
-        "work_start": "09:00",
-        "work_end": "17:00",
-        "wants_gym": True,
-        "wants_skincare": True,
-        "wants_learning": True,
-        "diet_type": "balanced",
-        "budget_level": "medium",
-        "avoid_ingredients": ["milk"],
-    }
+def main():
+    print("\n=== Agent LifeNavigator ===")
+    print("1) Load profile.json")
+    print("2) Enter new profile manually")
+    print("3) Use default profile\n")
 
+    choice = input("Select option (1/2/3): ").strip()
 
-def build_sample_tasks() -> List[Dict[str, Any]]:
-    return [
-        {"title": "Pay electricity bill", "priority": 1},
-        {"title": "Deep clean kitchen", "priority": 2},
-        {"title": "Update resume", "priority": 1},
-        {"title": "Read 20 pages", "priority": 3},
-        {"title": "Call parents", "priority": 2},
-    ]
+    if choice == "1":
+        raw_prefs = load_user_profile("profile.json")
+    elif choice == "2":
+        raw_prefs = ask_user_interactively()
+    else:
+        raw_prefs = load_user_profile("profile.json")  # will fall back to default if missing
 
+    personality = personalize_profile(raw_prefs)
 
-def main() -> None:
-    memory = PreferenceMemory(path="preferences.json")
-
-    orchestrator = OrchestratorAgent(memory=memory)
-
-    user_profile = build_sample_user_profile()
-    tasks = build_sample_tasks()
-    output_path = "life_plan.md"
-
-    result = orchestrator.run_full_pipeline(
-        user_profile=user_profile,
-        tasks=tasks,
-        calendar_source=None,
-        output_path=output_path,
+    orchestrator = OrchestratorAgent(
+        use_llm=USE_LLM,
+        user_prefs=raw_prefs,
+        personality=personality
     )
 
-    print("\n=== LifeNavigator Run Complete ===")
-    print(f"Plan saved to: {result['saved_path']}")
+    print("\nRunning LifeNavigator pipeline...\n")
+    result_md = orchestrator.run_full_pipeline()
+
+    output_file = "life_plan.md"
+    with open(output_file, "w") as f:
+        f.write(result_md)
+
+    print(f"\n✔ Life plan generated for {raw_prefs.get('name', 'User')}")
+    print(f"📄 Saved to: {output_file}\n")
 
 
 if __name__ == "__main__":

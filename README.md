@@ -1,79 +1,93 @@
+
 # Project Overview – Agent LifeNavigator
 
 ![Architecture Diagram](A_flowchart_diagram_displays_the_architecture_of_A.png)
 
-NOTE: This project is structured in the style of the Agent Shutton sample submission for the Kaggle Agents Intensive Capstone.  
-This README contains **all project details in one file**, including Problem Statement, Solution, Architecture, Workflow, Project Structure, Installation, Value, and Conclusion.
+NOTE: This project is structured in the style of the Agent Shutton Kaggle Capstone submission.  
+This README contains the **complete project explanation**, including Problem Statement, Solution, Architecture, Workflow, LLM Integration, Installation, Value, and Conclusion.
 
 ---
 
 # Problem Statement
 
-Weekly life planning is exhausting, repetitive, and time-consuming. People struggle with:
+Weekly life planning is exhausting and extremely repetitive. People struggle with:
 - Building daily routines  
 - Planning meals  
-- Creating shopping lists  
-- Prioritizing tasks  
+- Managing tasks  
 - Scheduling time blocks  
-- Integrating personal + work calendars  
-- Staying consistent with habits  
+- Maintaining healthy habits  
+- Keeping calendars updated  
 
-Traditional planning apps still require manual effort, creating **decision fatigue**.  
-Users need **automation**, not another to-do list.
+Even with modern apps, **95% of planning is still manual**, causing:
+- Decision fatigue  
+- Loss of productivity  
+- Stress from poor organization  
+- Inconsistent habits  
+- Fragmented workflows across multiple apps  
+
+People need **automation**, not more tools to manage.  
+Agent LifeNavigator solves this by generating a complete weekly plan automatically.
 
 ---
 
 # Solution Statement
 
-**Agent LifeNavigator** automates:
-- 🕒 Personalized daily routines  
-- 🍽️ Weekly meal planning  
-- 🛒 Grocery shopping lists  
-- 📄 Task prioritization  
-- 📅 Calendar merging  
-- 📘 Weekly plan export (Markdown)
+**Agent LifeNavigator** is a multi-agent AI system that automates the entire planning workflow:
 
-A team of specialized agents works together under the **OrchestratorAgent**, producing a complete weekly plan from simple user inputs.
+- 🕒 Creates personalized daily routines  
+- 🍽️ Generates a 7‑day meal plan  
+- 🛒 Builds a grocery shopping list  
+- 📄 Prioritizes tasks  
+- 📅 Merges user events into a master schedule  
+- 📘 Exports a fully‑formatted `life_plan.md`  
+
+It uses a **pipeline of specialized agents**, coordinated by an OrchestratorAgent.
 
 ---
 
 # Architecture
 
 ## Architecture Diagram
-
 ![Architecture Diagram](A_flowchart_diagram_displays_the_architecture_of_A.png)
+
+---
 
 ## Architecture Explanation
 
-### **OrchestratorAgent (Central Brain)**
-Coordinates all agents:
+### **OrchestratorAgent – Central Brain**
+Coordinates all subprocesses:
 1. Loads memory  
-2. Builds routine  
-3. Generates meals  
+2. Runs routine generator  
+3. Runs meal planner  
 4. Optimizes tasks  
 5. Merges calendar  
 6. Builds markdown  
-7. Edits output  
-8. Exports file  
+7. Applies editing  
+8. Exports final file  
 
 ---
 
 ### **RoutineDesignerAgent**
-Generates daily routines using:
-- Wake/sleep times  
-- Work hours  
-- Gym preference  
-- Skincare habit  
-- Learning goals  
+Uses wake time, sleep time, work schedule, fitness habits, skincare preferences, and learning goals to generate:
+- Morning routine  
+- Work blocks  
+- Gym time  
+- Skincare  
+- Learning blocks  
+- Night wind‑down  
 
 ---
 
 ### **MealPlannerAgent**
-Produces:
-- Weekly 7-day meal plan  
-- Shopping list  
+Builds:
+- 7-day meal plan  
+- Consolidated shopping list  
 
-Uses diet type, budget, and ingredient restrictions.
+Powered by:
+- Diet type  
+- Budget  
+- Ingredient restrictions  
+- Nutrition heuristics  
 
 ---
 
@@ -81,30 +95,54 @@ Uses diet type, budget, and ingredient restrictions.
 Sorts tasks using:
 - Priority  
 - Urgency  
-- Recommended execution order  
+- Execution difficulty  
+- Time availability  
 
 ---
 
 ### **CalendarSyncAgent**
-Merges:
-- AI-generated routine  
-- Simulated or real events  
+Combines:
+- Routine blocks  
+- Meal blocks  
+- Predefined events  
+- Work schedule  
 
-Designed for future Google Calendar integration.
+Designed for future:
+- Google Calendar API  
+- Apple Calendar  
+- Outlook Calendar  
 
 ---
 
 ### **PlanEditorAgent**
-Cleans, formats, and finalizes the weekly plan into polished markdown.
+Cleans formatting, improves structure, and turns the weekly data into a polished Markdown file.
 
 ---
 
 ### **ExportAgent**
-Exports all content into:
+Exports everything into:
 
 ```
 life_plan.md
 ```
+
+---
+
+# LLM Integration (Gemini 2.0 / 2.5 Pro)
+
+Agent LifeNavigator uses:
+
+### ✅ **Gemini 2.0 Flash / Gemini 2.5 Pro** for:
+- Reasoning  
+- Plan generation  
+- Meal descriptions  
+- Task optimization  
+- Editing  
+
+### All LLM calls are handled safely:
+- No API keys stored in code  
+- Environment variable loading  
+- Error-safe fallbacks  
 
 ---
 
@@ -113,14 +151,21 @@ life_plan.md
 ```
 agent-lifenavigator/
 │
-├── agents.py           # All agent classes + orchestrator
-├── tools.py            # Tools: meal planner, exporter, calendar reader
-├── memory.py           # Stored user preferences
-├── validation.py       # Validators for plan consistency
-├── main.py             # Pipeline entry point
-├── README.md           # This file
-├── life_plan.md        # Generated output
-└── preferences.json    # Auto-generated memory
+├── agents.py                 # All agent classes + orchestrator
+├── tools.py                  # Tools: meal planner, exporter, calendar reader
+├── memory.py                 # Stored user preferences
+├── validation.py             # Data validators
+├── main.py                   # Pipeline entry point
+│
+├── config.py                 # Central configuration (LLM settings, model names, paths)
+├── gemini_agent.py           # Gemini 2.0 / 2.5 Pro wrapper for generating LLM responses
+├── personality_engine.py     # Personality + style customization for personalized plans
+├── user_input.py             # Handles user interactions, input prompts, validation
+│
+├── README.md                 # Full project documentation
+├── life_plan.md              # Generated weekly plan output
+└── preferences.json          # Auto-updated memory storing user preferences
+
 ```
 
 ---
@@ -130,28 +175,26 @@ agent-lifenavigator/
 ```
 User Input
     ↓
-Memory Update
+Memory Save
     ↓
-RoutineDesignerAgent → Daily Routine
+RoutineDesignerAgent → Build routine
     ↓
-MealPlannerAgent → Meal Plan + Shopping List
+MealPlannerAgent → Weekly meal plan + shopping list
     ↓
-TaskOptimizerAgent → Ordered Tasks
+TaskOptimizerAgent → Sorted tasks
     ↓
-CalendarSyncAgent → Merged Schedule
+CalendarSyncAgent → Merge schedules
     ↓
 PlanEditorAgent → Clean Markdown
     ↓
-ExportAgent → life_plan.md
+ExportAgent → Save life_plan.md
 ```
 
 ---
 
 # Installation & Running
 
-Follow the steps below to install and run **Agent LifeNavigator**.
-
----
+Follow these steps to install and run **Agent LifeNavigator**.
 
 ## 1. Clone the Repository
 
@@ -159,8 +202,6 @@ Follow the steps below to install and run **Agent LifeNavigator**.
 git clone https://github.com/<your-username>/agent-lifenavigator.git
 cd agent-lifenavigator
 ```
-
----
 
 ## 2. (Optional) Create a Virtual Environment
 
@@ -170,10 +211,10 @@ python3 -m venv .venv
 source .venv/bin/activate
 ```
 
-### Windows (Command Prompt)
+### Windows (CMD)
 ```cmd
 python -m venv .venv
-.venv\Scripts\activate
+.venv\Scriptsctivate
 ```
 
 ### Windows (PowerShell)
@@ -184,8 +225,7 @@ python -m venv .venv
 
 ---
 
-## 3. Install Dependencies  
-(Only needed if you use `requirements.txt`)
+## 3. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
@@ -193,13 +233,26 @@ pip install -r requirements.txt
 
 ---
 
-## 4. Run the Agent
+## 4. Set Your Gemini API Key
+
+```bash
+export GEMINI_API_KEY="your_key_here"
+```
+
+Windows:
+```cmd
+set GEMINI_API_KEY=your_key_here
+```
+
+---
+
+## 5. Run the Agent
 
 ```bash
 python main.py
 ```
 
-After execution, the pipeline will generate:
+Your personalized plan will be created as:
 
 ```
 life_plan.md
@@ -207,52 +260,38 @@ life_plan.md
 
 ---
 
-## 5. Reset Memory (Optional)
+## 6. Reset Memory (Optional)
 
-Delete the memory file to regenerate preferences:
-
-### macOS / Linux
 ```bash
 rm preferences.json
-```
-
-### Windows
-```cmd
-del preferences.json
 ```
 
 ---
 
 # Value Statement
 
-Agent LifeNavigator reduces planning time by **8–10 hours per week**, helping users:
-- Remove mental load  
+Agent LifeNavigator reduces weekly planning time by **8–12 hours**, helping users:
+- Remove mental burden  
 - Maintain healthy routines  
-- Eat balanced meals  
-- Stay organized  
-- Improve productivity & wellness  
+- Stay consistent  
+- Improve productivity  
+- Reduce stress  
+- Organize life effortlessly  
 
-Future enhancements include:
+Future upgrades:
 - Real calendar integration  
-- Nutrition APIs  
-- Fitness agent  
-- Travel planning agent  
-- Budgeting agent  
-- Gemini-powered personalization  
+- Smart habit tracking  
+- Personalized fitness agent  
+- Nutrition + macro tracking  
+- Travel planning  
+- Financial planning agent  
 
 ---
 
 # Conclusion
 
-Agent LifeNavigator demonstrates how multi-agent systems can automate real-life planning tasks.  
-By delegating responsibilities to domain-specialized agents, the system delivers a seamless, end-to-end weekly plan.
+Agent LifeNavigator is a complete demonstration of multi-agent automation applied to real life.  
+With Gemini-powered reasoning and modular agents, it delivers a seamless weekly plan with minimal user input.
 
-This project is:
-- Modular  
-- Scalable  
-- ADK/Gemini compatible  
-- Ideal for Concierge Agent track  
-
-A strong example of practical AI automation.
-
+This project fits perfectly into the **Concierge Agent Track** and showcases how AI can meaningfully enhance everyday life.
 
