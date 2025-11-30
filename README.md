@@ -214,7 +214,7 @@ source .venv/bin/activate
 ### Windows (CMD)
 ```cmd
 python -m venv .venv
-.venv\Scriptsctivate
+.venv\Scripts\activate
 ```
 
 ### Windows (PowerShell)
@@ -264,6 +264,38 @@ life_plan.md
 
 ```bash
 rm preferences.json
+```
+
+---
+
+# 🎯 Execution Steps
+
+When running:
+```
+python main.py
+```
+
+You will see:
+
+```
+=== Agent LifeNavigator ===
+1) Load profile.json
+2) Enter new profile manually
+3) Use default profile
+
+Select option (1/2/3):
+```
+
+Select:
+- **2** to enter new profile  
+- **1** to load existing profile  
+- **3** for default  
+
+Then input your details.
+
+Output saved as:
+```
+life_plan.md
 ```
 
 ---
