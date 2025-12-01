@@ -27,13 +27,13 @@
 
 ### Monday
 - **Breakfast**: Oatmeal with fruits
-- **Lunch**: Grilled chicken with veggies
-- **Dinner**: Rice, lentils, and salad
+- **Lunch**: GLemon pepper chicken, quinoa, steamed broccoli
+- **Dinner**: Vegetable dal, rice, cucumber salad
 
 ### Tuesday
-- **Breakfast**: Oatmeal with fruits
-- **Lunch**: Grilled chicken with veggies
-- **Dinner**: Rice, lentils, and salad
+- **Breakfast**: Peanut butter toast,apple slices
+- **Lunch**: Egg rice (or tofu rice), mixed veggies
+- **Dinner**: Garlic lentils, brown rice, sautéed beans
 
 ### Wednesday
 - **Breakfast**: Oatmeal with fruits
@@ -42,16 +42,16 @@
 
 ### Thursday
 - **Breakfast**: Oatmeal with fruits
-- **Lunch**: Grilled chicken with veggies
-- **Dinner**: Rice, lentils, and salad
+- **Lunch**: Chicken burrito bowl (rice, salsa, beans, veggies)
+- **Dinner**: Vegetable pasta (no cheese, no milk) + garlic bread
 
 ### Friday
-- **Breakfast**: Oatmeal with fruits
-- **Lunch**: Grilled chicken with veggies
-- **Dinner**: Rice, lentils, and salad
+- **Breakfast**: Fruit bowl (berries, banana, chia seeds)
+- **Lunch**: Paneer substitute (tofu) rice bowl with veggies
+- **Dinner**: Grilled shrimp (or tofu) + couscous + roasted carrots
 
 ### Saturday
-- **Breakfast**: Oatmeal with fruits
+- **Breakfast**: Poha / Upma + orange juice
 - **Lunch**: Grilled chicken with veggies
 - **Dinner**: Rice, lentils, and salad
 
@@ -71,7 +71,24 @@
 - Spices
 - Oil
 - Yogurt / Plant yogurt
+- Quinoa
+- Whole-wheat pasta
+- Eggs
+- Broccoli
+- Spinach
+- Mixed vegetables 
+- Potatoes
+- Sweet potatoes 
+- Beans 
+- Carrots 
+- Bell peppers 
+- Tomatoes
+- Bananas
+- Apples
+- Berries 
+- Oranges
 
+Any fruits for oatmeal
 ## 5. Optimized Tasks
 
 - (1) [Priority 1] Pay electricity bill
